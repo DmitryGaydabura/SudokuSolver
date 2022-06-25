@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Logic {
@@ -11,8 +9,8 @@ public class Logic {
         Utility.printSudokuHorizontal(initialStateHorizontal);
 
         int[] horizontal = initialStateHorizontal;
-        int[] vertical = horizontalToVerticalConverter(initialStateHorizontal);
-        int[] square = horizontalToSquareConverter(initialStateHorizontal);
+        int[] vertical;
+        int[] square ;
 
         //TODO Этап решения судоку
         //Три цикла(Горизонт. Вертик. Квадратный) для проверки недостающего 1 числа .
@@ -21,15 +19,15 @@ public class Logic {
         // Если нет, начинаем с начала.
         int i = 1;
         while(i < 181){
-            horizontal = checkHorizontal(horizontal);
+            checkHorizontal(horizontal);
             vertical = horizontalToVerticalConverter(horizontal);
 
 
-            vertical = checkVertical(vertical);
+            checkVertical(vertical);
             horizontal = horizontalToVerticalConverter(vertical);
 
             square = horizontalToSquareConverter(horizontal);
-            square = checkSquare(square);
+            checkSquare(square);
 
             horizontal = horizontalToSquareConverter(square);
 
@@ -44,7 +42,12 @@ public class Logic {
         Utility.printSudokuHorizontal(horizontal);
     }
 
-    private static int[] checkSquare(int[] square) {
+    private static void checkSquare(int[] square) {
+        getInts(square);
+
+    }
+
+    private static void getInts(int[] square) {
         for (int j = 0; j < 9; j++) {
 
             int n = 0;
@@ -78,101 +81,20 @@ public class Logic {
                     }
                 }
                 currentLine[indexOfZero] = missingNumber;
-                for (int i = 0; i < 9; i++) {
-                    square[9 * j + i]  = currentLine[i];
-                }
+                // A for loop.
+                System.arraycopy(currentLine, 0, square, 9 * j, 9);
             }
 
         }
-        return square;
-
     }
 
-    private static int[] checkVertical(int[] vertical) {
-        for (int j = 0; j < 9; j++) {
-
-            int n = 0;
-            int[] currentLine = new int[9];
-            for (int i = 0; i < 9; i++) {
-
-                currentLine[i] = vertical[9 * j + i];
-                if(currentLine[i] == 0){
-                    n++;
-                }
-            }
-            if(n == 1){
-                int indexOfZero = 0;
-                for (int i = 0; i < 9; i++) {
-                    if(currentLine[i] == 0){
-                        indexOfZero = i;
-                    }
-                }
-                int[] numbers = {1,2,3,4,5,6,7,8,9};
-                for (int i = 0; i < 9; i++) {
-                    for (int k = 0; k < 9; k++) {
-                        if (currentLine[i] == numbers[k]){
-                            numbers[k] = 0;
-                        }
-                    }
-                }
-                int missingNumber = 0;
-                for (int i = 0; i < 9; i++) {
-                    if(numbers[i] != 0){
-                        missingNumber = numbers[i];
-                    }
-                }
-                currentLine[indexOfZero] = missingNumber;
-                for (int i = 0; i < 9; i++) {
-                    vertical[9 * j + i]  = currentLine[i];
-                }
-            }
-
-        }
-        return vertical;
+    private static void checkVertical(int[] vertical) {
+        getInts(vertical);
     }
 
-    private static int[] checkHorizontal(int[] horizontal) {
+    private static void checkHorizontal(int[] horizontal) {
 
-        for (int j = 0; j < 9; j++) {
-
-            int n = 0;
-            int[] currentLine = new int[9];
-            for (int i = 0; i < 9; i++) {
-
-                currentLine[i] = horizontal[9 * j + i];
-                if(currentLine[i] == 0){
-                    n++;
-                }
-            }
-            if(n == 1){
-                int indexOfZero = 0;
-                for (int i = 0; i < 9; i++) {
-                    if(currentLine[i] == 0){
-                        indexOfZero = i;
-                    }
-                }
-                int[] numbers = {1,2,3,4,5,6,7,8,9};
-                for (int i = 0; i < 9; i++) {
-                    for (int k = 0; k < 9; k++) {
-                        if (currentLine[i] == numbers[k]){
-                            numbers[k] = 0;
-                        }
-                    }
-                }
-                int missingNumber = 0;
-                for (int i = 0; i < 9; i++) {
-                    if(numbers[i] != 0){
-                        missingNumber = numbers[i];
-                    }
-                }
-                currentLine[indexOfZero] = missingNumber;
-                for (int i = 0; i < 9; i++) {
-                    horizontal[9 * j + i]  = currentLine[i];
-                }
-            }
-
-        }
-        return horizontal;
+        getInts(horizontal);
 
     }
 
@@ -197,6 +119,7 @@ public class Logic {
         square[6] = initialStateHorizontal[18];
         square[7] = initialStateHorizontal[19];
         square[8] = initialStateHorizontal[20];
+
         square[9] =  initialStateHorizontal[3];
         square[10] = initialStateHorizontal[4];
         square[11] = initialStateHorizontal[5];
@@ -206,6 +129,7 @@ public class Logic {
         square[15] = initialStateHorizontal[21];
         square[16] = initialStateHorizontal[22];
         square[17] = initialStateHorizontal[23];
+
         square[18] = initialStateHorizontal[6];
         square[19] = initialStateHorizontal[7];
         square[20] = initialStateHorizontal[8];
@@ -215,6 +139,7 @@ public class Logic {
         square[24] = initialStateHorizontal[24];
         square[25] = initialStateHorizontal[25];
         square[26] = initialStateHorizontal[26];
+
         square[27] = initialStateHorizontal[27];
         square[28] = initialStateHorizontal[28];
         square[29] = initialStateHorizontal[29];
@@ -224,6 +149,7 @@ public class Logic {
         square[33] = initialStateHorizontal[45];
         square[34] = initialStateHorizontal[46];
         square[35] = initialStateHorizontal[47];
+
         square[36] = initialStateHorizontal[30];
         square[37] = initialStateHorizontal[31];
         square[38] = initialStateHorizontal[32];
@@ -233,6 +159,7 @@ public class Logic {
         square[42] = initialStateHorizontal[48];
         square[43] = initialStateHorizontal[49];
         square[44] = initialStateHorizontal[50];
+
         square[45] = initialStateHorizontal[33];
         square[46] = initialStateHorizontal[34];
         square[47] = initialStateHorizontal[35];
@@ -243,6 +170,7 @@ public class Logic {
         square[52] = initialStateHorizontal[52];
         square[53] = initialStateHorizontal[53];
         square[54] = initialStateHorizontal[54];
+
         square[55] = initialStateHorizontal[55];
         square[56] = initialStateHorizontal[56];
         square[57] = initialStateHorizontal[63];
@@ -252,6 +180,7 @@ public class Logic {
         square[61] = initialStateHorizontal[73];
         square[62] = initialStateHorizontal[74];
         square[63] = initialStateHorizontal[57];
+
         square[64] = initialStateHorizontal[58];
         square[65] = initialStateHorizontal[59];
         square[66] = initialStateHorizontal[66];
@@ -261,6 +190,7 @@ public class Logic {
         square[70] = initialStateHorizontal[76];
         square[71] = initialStateHorizontal[77];
         square[72] = initialStateHorizontal[60];
+
         square[73] = initialStateHorizontal[61];
         square[74] = initialStateHorizontal[62];
         square[75] = initialStateHorizontal[69];

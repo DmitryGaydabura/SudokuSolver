@@ -1,7 +1,5 @@
 public class Utility {
-    public static void printLogo() {
 
-    }
 
     public static void printSudokuHorizontal(int[] initialStateHorizontal) {
         int n = 0;
