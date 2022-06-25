@@ -5,12 +5,14 @@ public class Logic {
 
         //TODO этап получения условия и создания трех массивов.
 
+        // Asking for the initial state of the sudoku and printing it.
         int[] initialStateHorizontal = askForInitialState();
         Utility.printSudokuHorizontal(initialStateHorizontal);
 
+        // Creating three arrays.
         int[] horizontal = initialStateHorizontal;
         int[] vertical;
-        int[] square ;
+        int[] square;
 
         //TODO Этап решения судоку
         //Три цикла(Горизонт. Вертик. Квадратный) для проверки недостающего 1 числа .
@@ -18,33 +20,35 @@ public class Logic {
         //Проверить все ли числа на месте
         // Если нет, начинаем с начала.
         int i = 1;
-        while(i < 181){
+        while (i < 181) {
+            // Checking the horizontal array and then converting it to a vertical array.
             checkHorizontal(horizontal);
             vertical = horizontalToVerticalConverter(horizontal);
 
 
+            // Checking the vertical array and then converting it to a horizontal array.
             checkVertical(vertical);
             horizontal = horizontalToVerticalConverter(vertical);
 
+            // Converting the horizontal array to a square array and then checking it.
             square = horizontalToSquareConverter(horizontal);
             checkSquare(square);
 
+            // Converting the square array to a horizontal array.
             horizontal = horizontalToSquareConverter(square);
 
             i++;
         }
 
 
-
-
         //TODO Этап проверки и принта решения
 
+        // It prints the sudoku in a horizontal way.
         Utility.printSudokuHorizontal(horizontal);
     }
 
     private static void checkSquare(int[] square) {
         getInts(square);
-
     }
 
     private static void getInts(int[] square) {
@@ -52,34 +56,41 @@ public class Logic {
 
             int n = 0;
             int[] currentLine = new int[9];
+            // Checking the current line of the sudoku.
             for (int i = 0; i < 9; i++) {
 
                 currentLine[i] = square[9 * j + i];
-                if(currentLine[i] == 0){
+                if (currentLine[i] == 0) {
                     n++;
                 }
             }
-            if(n == 1){
+            if (n == 1) {
+                // Finding the index of the zero in the current line.
                 int indexOfZero = 0;
                 for (int i = 0; i < 9; i++) {
-                    if(currentLine[i] == 0){
+                    if (currentLine[i] == 0) {
                         indexOfZero = i;
                     }
                 }
-                int[] numbers = {1,2,3,4,5,6,7,8,9};
+                // Creating an array of numbers from 1 to 9 and then it is checking if the current line of the sudoku
+                // contains any of these numbers. If it does, it is changing the number to 0.
+                int[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9};
                 for (int i = 0; i < 9; i++) {
                     for (int k = 0; k < 9; k++) {
-                        if (currentLine[i] == numbers[k]){
+                        if (currentLine[i] == numbers[k]) {
                             numbers[k] = 0;
                         }
                     }
                 }
+                // Finding the missing number in the current line of the sudoku.
                 int missingNumber = 0;
                 for (int i = 0; i < 9; i++) {
-                    if(numbers[i] != 0){
+                    if (numbers[i] != 0) {
                         missingNumber = numbers[i];
                     }
                 }
+                // Finding the missing number in the current line of the sudoku and then it is inserting it into the
+                // current line.
                 currentLine[indexOfZero] = missingNumber;
                 // A for loop.
                 System.arraycopy(currentLine, 0, square, 9 * j, 9);
@@ -99,16 +110,18 @@ public class Logic {
     }
 
     private static int[] horizontalToVerticalConverter(int[] initialStateHorizontal) {
+        // Converting the horizontal array to a vertical array.
         int[] vertical = new int[81];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                vertical[j + 9*i] = initialStateHorizontal[i + 9*j];
+                vertical[j + 9 * i] = initialStateHorizontal[i + 9 * j];
             }
         }
         return vertical;
     }
 
     private static int[] horizontalToSquareConverter(int[] initialStateHorizontal) {
+        // The above code is converting the initial state from a horizontal array to a square array.
         int[] square = new int[81];
         square[0] = initialStateHorizontal[0];
         square[1] = initialStateHorizontal[1];
@@ -120,7 +133,7 @@ public class Logic {
         square[7] = initialStateHorizontal[19];
         square[8] = initialStateHorizontal[20];
 
-        square[9] =  initialStateHorizontal[3];
+        square[9] = initialStateHorizontal[3];
         square[10] = initialStateHorizontal[4];
         square[11] = initialStateHorizontal[5];
         square[12] = initialStateHorizontal[12];
@@ -199,13 +212,14 @@ public class Logic {
         square[78] = initialStateHorizontal[78];
         square[79] = initialStateHorizontal[79];
         square[80] = initialStateHorizontal[80];
-        
+
 
         return square;
     }
 
 
     private static int[] askForInitialState() {
+        // Asking the user to enter the initial state of the sudoku.
         System.out.println("Please,enter each number of your sudoku(or type in \"0\", for each blank space)");
         Scanner in = new Scanner(System.in);
         String n = in.nextLine();
